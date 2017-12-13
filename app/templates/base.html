@@ -42,7 +42,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#">练习</a></li>
                         <li><a href="#">模拟考试</a></li>
-                    </ul>
+                    </ul>-
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -57,10 +57,9 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 <li class="dropdown">
-{#                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">#}
-{#                        <img src="{{ current_user.gravatar(size=18) }}">#}
-{#                        Account <b class="caret"></b>#}
-{#                    </a>#}
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ current_user.username }}
+                    </a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ url_for('auth.change_password') }}">Change Password</a></li>
                         <li><a href="{{ url_for('auth.change_email_request') }}">Change Email</a></li>
