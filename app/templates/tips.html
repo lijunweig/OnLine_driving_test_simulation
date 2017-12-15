@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Four Seasons{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    {% if t == 0 %}
+        <h1>科目二考试技巧</h1>
+    {% else %}
+        <h1>科目四考试技巧</h1>
+    {% endif %}
+</div>
+    {% for post in posts %}
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ post.title }}
+        </div>
+        <div class="panel-body" style="overflow : hidden;
+                                        text-overflow: ellipsis;
+                                        display: -webkit-box;
+                                        -webkit-line-clamp: 3;
+                                        -webkit-box-orient: vertical;
+                                        line-height: 1.4em; height: 5.1em;">
+            <a href="{{ url_for('.show_post', id=post.id) }}">{{ post.body }}</a>
+        </div>
+
+    </div>
+</div>
+    {% endfor %}
+{% endblock %}
+
+
+

@@ -1,0 +1,23 @@
+{% extends "dashboard.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Four Seasons{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>编辑文章</h1>
+</div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ wtf.quick_form(form) }}
+        </div>
+        <div class="panel-body">
+            {% include '_posts.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

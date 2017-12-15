@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Four Seasons{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>文章详情</h1>
+</div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <h3>{{ post.title }}</h3>
+        </div>
+        <div class="panel-body">
+            {{ post.body }}
+        </div>
+    </div>
+</div>
+{% endblock %}

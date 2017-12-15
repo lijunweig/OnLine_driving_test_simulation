@@ -8,7 +8,7 @@ from flask import current_app, request
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db
 from . import login_manager
-
+from  sqlalchemy.sql.expression import func
 
 # using binary system and bitwise, for future modify
 class Permission:
@@ -190,20 +190,22 @@ class Answer_paper(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    exam_paper_id = db.Column(db.Integer, db.ForeignKey('exam_papers.id'))
     answer = db.Column(db.String(128))
 
 
 registration = db.Table('registrations',
                         db.Column('question_id', db.Integer, db.ForeignKey('questions.id')),
-                        db.Column('exam_paper_id', db.Integer, db.ForeignKey('exam_papers.id')))
+                        db.Column('answer_paper_id', db.Integer, db.ForeignKey('answer_papers.id')))
 
 
-class Exam_paper(db.Model):
-    __tablename__ = 'exam_papers'
-    id = db.Column(db.Integer, primary_key=True)
-    question_type = db.Column(db.Integer)
-    duration = db.Column(db.Integer)
+# class Exam_paper(db.Model):
+#     __tablename__ = 'exam_papers'
+#     id = db.Column(db.Integer, primary_key=True)
+#     question_type = db.Column(db.Integer)
+#     duration = db.Column(db.Integer)
+#
+#     def create_exam_paper(self, number):
+#         questions = Question.query.order_by(func.random()).limit(number)
 
 
 class Question(db.Model):
@@ -213,10 +215,11 @@ class Question(db.Model):
     text = db.Column(db.Text)
     answer = db.Column(db.String(16), index=True)
     analysis = db.Column(db.Text)
-    expose_times = (db.Integer)
-    right_times = (db.Integer)
-    wrong_times = (db.Integer)
-    exam_papers = db.relationship('Exam_paper',
+    expose_times = db.Column(db.Integer)
+    right_times = db.Column(db.Integer)
+    wrong_times = db.Column(db.Integer)
+    image = db.Column(db.Text)
+    answer_papers = db.relationship('Answer_paper',
                                   secondary=registration,
                                   backref=db.backref('questions', lazy='dynamic'),
                                   lazy='dynamic')
@@ -227,5 +230,5 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64))
     body = db.Column(db.Text)
-    body_html = db.Column(db.Text)
+    post_type = db.Column(db.Integer)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)

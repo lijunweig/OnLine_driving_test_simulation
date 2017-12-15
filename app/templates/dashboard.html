@@ -2,8 +2,18 @@
 
 {% block title %}Four Seasons{% endblock %}
 
-{% block page_content %}
-
-
-
+{% block left_bar %}
+    <div class="col-md-2">
+     <div class="list-group">
+      <a href="#" class="list-group-item active">
+        管理
+      </a>
+      <a href="{{ url_for('main.edit_questions') }}" class="list-group-item">试题管理</a>
+      <a href="#" class="list-group-item">用户管理</a>
+      <a href="{{ url_for('main.edit_posts') }}" class="list-group-item">文章管理</a>
+     </div>
+    </div>
 {% endblock %}
+
+
+

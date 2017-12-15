@@ -5,6 +5,23 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style type="text/css">
+    div.post-date {
+    float: right;
+    }
+    div.post-title {
+    font-weight: bold;
+    }
+    div.post-footer {
+    text-align: right;
+    }
+    span.label-primary{
+       font-weight: bold;
+    }
+    div.question-footer {
+    text-align: right;
+    }
+    </style>
 {% endblock %}
 
 {% block navbar %}
@@ -22,6 +39,10 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {% if current_user.is_authenticated %}
+                    {% if current_user.is_administrator() %}
+{#                    <a class="navbar-brand" href="{{ url_for('main.dashboard') }}">前往控制台</a>#}
+                      <li><a href="{{ url_for('main.dashboard') }}">前往控制台</a></li>
+                    {% else %}
                     <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     我的
@@ -30,6 +51,7 @@
                         <li><a href="#">模拟成绩</a></li>
                     </ul>
                     </li>
+                    {% endif %}
                 {% endif %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,8 +76,8 @@
                     考试资料
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">科目二</a></li>
-                        <li><a href="#">科目三</a></li>
+                        <li><a href="{{ url_for('main.sub24_posts', post_type=0) }}">科目二</a></li>
+                        <li><a href="{{ url_for('main.sub24_posts', post_type=1) }}">科目三</a></li>
                     </ul>
                 </li>
             </ul>
@@ -89,7 +111,9 @@
     </div>
     {% endfor %}
 
+    {% block left_bar %}{% endblock %}
     {% block page_content %}{% endblock %}
+    {% block question_content %}{% endblock %}
 </div>
 {% endblock %}
 

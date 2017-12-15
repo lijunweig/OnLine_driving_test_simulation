@@ -9,218 +9,262 @@
     <collation id="3" parent="1" name="BINARY"/>
     <collation id="4" parent="1" name="NOCASE"/>
     <collation id="5" parent="1" name="RTRIM"/>
-    <table id="6" parent="2" name="answer_papers"/>
-    <table id="7" parent="2" name="exam_papers"/>
-    <table id="8" parent="2" name="questions"/>
-    <table id="9" parent="2" name="registrations"/>
-    <table id="10" parent="2" name="roles"/>
-    <table id="11" parent="2" name="sqlite_master">
+    <table id="6" parent="2" name="alembic_version"/>
+    <table id="7" parent="2" name="answer_papers"/>
+    <table id="8" parent="2" name="posts"/>
+    <table id="9" parent="2" name="questions"/>
+    <table id="10" parent="2" name="registrations"/>
+    <table id="11" parent="2" name="roles"/>
+    <table id="12" parent="2" name="sqlite_master">
       <System>1</System>
     </table>
-    <table id="12" parent="2" name="users"/>
-    <column id="13" parent="6" name="id">
+    <table id="13" parent="2" name="users"/>
+    <column id="14" parent="6" name="version_num">
+      <DataType>VARCHAR(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="15" parent="6" name="sqlite_autoindex_alembic_version_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>version_num</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="16" parent="6" name="alembic_version_pkc">
+      <ColNames>version_num</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_alembic_version_1</UnderlyingIndexName>
+    </key>
+    <column id="17" parent="7" name="id">
       <DataType>INTEGER|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="14" parent="6" name="timestamp">
+    <column id="18" parent="7" name="timestamp">
       <Position>1</Position>
       <DataType>DATETIME|0</DataType>
     </column>
-    <column id="15" parent="6" name="user_id">
+    <column id="19" parent="7" name="user_id">
       <Position>2</Position>
       <DataType>INTEGER|0</DataType>
     </column>
-    <column id="16" parent="6" name="exam_paper_id">
+    <column id="20" parent="7" name="exam_paper_id">
       <Position>3</Position>
       <DataType>INTEGER|0</DataType>
     </column>
-    <column id="17" parent="6" name="answer">
+    <column id="21" parent="7" name="answer">
       <Position>4</Position>
       <DataType>VARCHAR(128)|0</DataType>
     </column>
-    <index id="18" parent="6" name="ix_answer_papers_timestamp">
+    <index id="22" parent="7" name="ix_answer_papers_timestamp">
       <ColNames>timestamp</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="19" parent="6">
+    <key id="23" parent="7">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="20" parent="6">
+    <foreign-key id="24" parent="7">
       <ColNames>user_id</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="21" parent="6">
+    <foreign-key id="25" parent="7">
       <ColNames>exam_paper_id</ColNames>
       <RefTableName>exam_papers</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="22" parent="7" name="id">
-      <DataType>INTEGER|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="23" parent="7" name="question_type">
-      <Position>1</Position>
-      <DataType>INTEGER|0</DataType>
-    </column>
-    <column id="24" parent="7" name="duration">
-      <Position>2</Position>
-      <DataType>INTEGER|0</DataType>
-    </column>
-    <key id="25" parent="7">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
     <column id="26" parent="8" name="id">
       <DataType>INTEGER|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="27" parent="8" name="question_type">
+    <column id="27" parent="8" name="title">
       <Position>1</Position>
-      <DataType>INTEGER|0</DataType>
+      <DataType>VARCHAR(64)|0</DataType>
     </column>
-    <column id="28" parent="8" name="text">
+    <column id="28" parent="8" name="body">
       <Position>2</Position>
       <DataType>TEXT|0</DataType>
     </column>
-    <column id="29" parent="8" name="answer">
+    <column id="29" parent="8" name="post_type">
       <Position>3</Position>
-      <DataType>VARCHAR(16)|0</DataType>
+      <DataType>INTEGER|0</DataType>
     </column>
-    <column id="30" parent="8" name="analysis">
+    <column id="30" parent="8" name="timestamp">
       <Position>4</Position>
-      <DataType>TEXT|0</DataType>
+      <DataType>DATETIME|0</DataType>
     </column>
-    <index id="31" parent="8" name="ix_questions_question_type">
-      <ColNames>question_type</ColNames>
+    <index id="31" parent="8" name="ix_posts_timestamp">
+      <ColNames>timestamp</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <index id="32" parent="8" name="ix_questions_answer">
-      <ColNames>answer</ColNames>
-      <ColumnCollations></ColumnCollations>
-    </index>
-    <key id="33" parent="8">
+    <key id="32" parent="8">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="34" parent="9" name="question_id">
+    <column id="33" parent="9" name="id">
       <DataType>INTEGER|0</DataType>
+      <NotNull>1</NotNull>
     </column>
-    <column id="35" parent="9" name="exam_paper_id">
+    <column id="34" parent="9" name="question_type">
       <Position>1</Position>
       <DataType>INTEGER|0</DataType>
     </column>
-    <foreign-key id="36" parent="9">
+    <column id="35" parent="9" name="text">
+      <Position>2</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="36" parent="9" name="answer">
+      <Position>3</Position>
+      <DataType>VARCHAR(16)|0</DataType>
+    </column>
+    <column id="37" parent="9" name="analysis">
+      <Position>4</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="38" parent="9" name="expose_times">
+      <Position>5</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="39" parent="9" name="image">
+      <Position>6</Position>
+      <DataType>TEXT|0</DataType>
+    </column>
+    <column id="40" parent="9" name="right_times">
+      <Position>7</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="41" parent="9" name="wrong_times">
+      <Position>8</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <index id="42" parent="9" name="ix_questions_question_type">
+      <ColNames>question_type</ColNames>
+      <ColumnCollations></ColumnCollations>
+    </index>
+    <index id="43" parent="9" name="ix_questions_answer">
+      <ColNames>answer</ColNames>
+      <ColumnCollations></ColumnCollations>
+    </index>
+    <key id="44" parent="9">
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="45" parent="10" name="question_id">
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <column id="46" parent="10" name="exam_paper_id">
+      <Position>1</Position>
+      <DataType>INTEGER|0</DataType>
+    </column>
+    <foreign-key id="47" parent="10">
       <ColNames>question_id</ColNames>
       <RefTableName>questions</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="37" parent="9">
+    <foreign-key id="48" parent="10">
       <ColNames>exam_paper_id</ColNames>
       <RefTableName>exam_papers</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="38" parent="10" name="id">
+    <column id="49" parent="11" name="id">
       <DataType>INTEGER|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="39" parent="10" name="name">
+    <column id="50" parent="11" name="name">
       <Position>1</Position>
       <DataType>VARCHAR(64)|0</DataType>
     </column>
-    <column id="40" parent="10" name="default">
+    <column id="51" parent="11" name="default">
       <Position>2</Position>
       <DataType>BOOLEAN|0</DataType>
     </column>
-    <column id="41" parent="10" name="permission">
+    <column id="52" parent="11" name="permissions">
       <Position>3</Position>
       <DataType>INTEGER|0</DataType>
     </column>
-    <index id="42" parent="10" name="sqlite_autoindex_roles_1">
+    <index id="53" parent="11" name="sqlite_autoindex_roles_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>name</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <index id="43" parent="10" name="ix_roles_default">
+    <index id="54" parent="11" name="ix_roles_default">
       <ColNames>default</ColNames>
       <ColumnCollations></ColumnCollations>
     </index>
-    <key id="44" parent="10">
+    <key id="55" parent="11">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="45" parent="10">
+    <key id="56" parent="11">
       <ColNames>name</ColNames>
       <UnderlyingIndexName>sqlite_autoindex_roles_1</UnderlyingIndexName>
     </key>
-    <check id="46" parent="10">
+    <check id="57" parent="11">
       <Predicate>&quot;default&quot; IN (0, 1)</Predicate>
     </check>
-    <column id="47" parent="11" name="type">
+    <column id="58" parent="12" name="type">
       <DataType>text|0</DataType>
     </column>
-    <column id="48" parent="11" name="name">
+    <column id="59" parent="12" name="name">
       <Position>1</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="49" parent="11" name="tbl_name">
+    <column id="60" parent="12" name="tbl_name">
       <Position>2</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="50" parent="11" name="rootpage">
+    <column id="61" parent="12" name="rootpage">
       <Position>3</Position>
       <DataType>integer|0</DataType>
     </column>
-    <column id="51" parent="11" name="sql">
+    <column id="62" parent="12" name="sql">
       <Position>4</Position>
       <DataType>text|0</DataType>
     </column>
-    <column id="52" parent="12" name="id">
+    <column id="63" parent="13" name="id">
       <DataType>INTEGER|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="53" parent="12" name="email">
+    <column id="64" parent="13" name="email">
       <Position>1</Position>
       <DataType>VARCHAR(64)|0</DataType>
     </column>
-    <column id="54" parent="12" name="username">
+    <column id="65" parent="13" name="username">
       <Position>2</Position>
       <DataType>VARCHAR(64)|0</DataType>
     </column>
-    <column id="55" parent="12" name="role_id">
+    <column id="66" parent="13" name="role_id">
       <Position>3</Position>
       <DataType>INTEGER|0</DataType>
     </column>
-    <column id="56" parent="12" name="password_hash">
+    <column id="67" parent="13" name="password_hash">
       <Position>4</Position>
       <DataType>VARCHAR(128)|0</DataType>
     </column>
-    <column id="57" parent="12" name="confirmed">
+    <column id="68" parent="13" name="confirmed">
       <Position>5</Position>
       <DataType>BOOLEAN|0</DataType>
     </column>
-    <index id="58" parent="12" name="ix_users_email">
+    <index id="69" parent="13" name="ix_users_email">
       <ColNames>email</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <index id="59" parent="12" name="ix_users_username">
+    <index id="70" parent="13" name="ix_users_username">
       <ColNames>username</ColNames>
       <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
-    <key id="60" parent="12">
+    <key id="71" parent="13">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="61" parent="12">
+    <foreign-key id="72" parent="13">
       <ColNames>role_id</ColNames>
       <RefTableName>roles</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <check id="62" parent="12">
+    <check id="73" parent="13">
       <Predicate>confirmed IN (0, 1)</Predicate>
     </check>
   </database-model>
