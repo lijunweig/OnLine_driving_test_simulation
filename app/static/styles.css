@@ -1,3 +1,21 @@
-div.col-md-2{
-    color:red;
+div.post-date {
+    float: right;
+}
+div.post-title {
+    font-weight: bold;
+}
+div.post-footer {
+    text-align: right;
+}
+span.label-primary{
+   font-weight: bold;
+}
+div.question-footer {
+    text-align: right;
+}
+li {
+    list-style: none;
+}
+#question_ok {
+    display: none;
 }

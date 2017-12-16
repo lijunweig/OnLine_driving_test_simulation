@@ -33,9 +33,5 @@ class QuestionForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
-# class OrderedForm(FlaskForm):
-#     answer = RadioField('answer', choices=[('A', 'A'), ('B', 'B'), ('C', 'C'), ('D', 'D')],
-#                         validators=[DataRequired()])
-#     submit = SubmitField('OK')
-#     def __init__(self, ):
-#
+class SubmitForm(FlaskForm):
+    submit = SubmitField('Submit')

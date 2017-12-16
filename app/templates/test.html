@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Four Seasons{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5" style="width: 80%; font-size: 20px;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+{#                        {% if question.image %}#}
+{#                            <img src={{ question.image }} class="img-responsive" alt="Responsive image">#}
+{#                        {% endif %}#}
+                        <span id="question_num">{{ id + 1}}</span> /
+                        <span id="question_all">{{ question_num }}</span>
+                        <span id="question_type" style="visibility:hidden">{{ question_type }}</span>
+                        <span id="question_ans" style="visibility:hidden">{{ question.answer }}</span>
+                        {% if question.image %}
+                            <img src={{ question.image }} class="img-responsive" alt="Responsive image" style="width:100%;">
+                        {% endif %}
+                        {{ question_t['question'] }}
+                    </div>
+                    <div class="panel-body">
+{#                        <ul style="margin-top: 50px;">#}
+{#                            <li>#}
+{#                                <label>#}
+{#                                    <input name="s_option" value="A" type="radio"> A:{{ question_t['A'] }}#}
+{#                                </label>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <label>#}
+{#                                    <input name="s_option" value="B" type="radio"> B:{{ question_t['B'] }}#}
+{#                                </label>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <label>#}
+{#                                    <input name="s_option" value="B" type="radio"> C:{{ question_t['C'] }}#}
+{#                                </label>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <label>#}
+{#                                    <input name="s_option" value="D" type="radio"> B:{{ question_t['D'] }}#}
+{#                                </label>#}
+{#                            </li>#}
+{#                        </ul>#}
+                        <ul style="margin-top: 50px;">
+                            <li>
+                                <label>
+                                    A:{{ question_t['A'] }}
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    B:{{ question_t['B'] }}
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    C:{{ question_t['C'] }}
+                                </label>
+                            </li>
+                            <li>
+                                <label>
+                                    D:{{ question_t['D'] }}
+                                </label>
+                            </li>
+                        </ul>
+                        <div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-top: 50px;">
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="ans_a">A</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="ans_b">B</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="ans_c">C</button>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" id="ans_d">D</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="btn-group btn-group-justified" role="group" aria-label="..." style="margin-bottom: 50px;">
+                    {% for i in range(1, question_num + 1) %}
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-default" id="question_button{{ i }}">{{ i }}</button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {{ wtf.quick_form(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block question_content %}
+    <script>
+        var ans = $("input[type='radio']:checked").val();
+        var question_num = parseInt($('#question_num').text());
+        var question_all = parseInt($('#question_all').text());
+        var question_type = parseInt($('#question_type').text());
+        var question_ans = $('#question_ans').text();
+        var question_ok = $('#question_ok');
+        var storage = window.localStorage;
+
+        $('#ans_a').on('click', function () {
+            storage['ans'] = storage['ans'] + 'A1';
+            if (question_num !== question_all) {
+                window.location.href = '/test/' + question_type + '/' + question_num;
+            } else {
+                $('#ans_a').attr('disabled', 'disabled');
+                save()
+            }
+        })
+        $('#ans_b').on('click', function () {
+            storage['ans'] = storage['ans'] + 'B1';
+            if (question_num !== question_all) {
+                window.location.href = '/test/' + question_type + '/' + question_num;
+            } else {
+                $('#ans_b').attr('disabled', 'disabled');
+                save()
+            }
+        })
+        $('#ans_c').on('click', function () {
+            storage['ans'] = storage['ans'] + 'C1';
+            if (question_num !== question_all) {
+                window.location.href = '/test/' + question_type + '/' + question_num;
+            } else {
+                $('#ans_c').attr('disabled', 'disabled');
+                save()
+            }
+        })
+        $('#ans_d').on('click', function () {
+            storage['ans'] = storage['ans'] + 'D1';
+            if (question_num !== question_all) {
+                window.location.href = '/test/' + question_type + '/' + question_num;
+            } else {
+                $('#ans_d.' +
+                    '').attr('disabled', 'disabled');
+                save()
+            }
+        })
+        function save() {
+            var answer = storage['ans'];
+            console.log(storage['ans']);
+            storage.removeItem("ans");
+
+        }
+    </script>
+{% endblock %}

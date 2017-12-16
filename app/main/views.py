@@ -1,10 +1,10 @@
 from . import main
 from flask import render_template, redirect, url_for, abort, flash, request, \
-    current_app, make_response
+    current_app, make_response, session
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
-from .forms import PostForm, QuestionForm
-from ..models import Post, Permission, Question
+from .forms import PostForm, QuestionForm, SubmitForm
+from ..models import Post, Permission, Question, Answer_paper
 from .. import db, photos
 import sys
 reload(sys)
@@ -165,20 +165,52 @@ def show_post(id):
     return render_template('show_post.html', post=post)
 
 
-@main.route('/practice/<question_type>')
-def practice(question_type):
+@main.route('/practice/<question_type>/<int:id>')
+def practice(question_type, id):
     questions = Question.query.filter_by(question_type=question_type).all()
-    question_t = {}
-    for question in questions:
-        question_id = question.id
-        question_text = question.text
-        question_t[question_id] = eval(question_text.replace(' ', ''))
-    return render_template('practice.html', question=questions, question_t=question_t)
+    question = questions[id]
+    question_t= eval(question.text.replace(' ', ''))
+    # for question in questions:
+    #     question_id = question.id
+    #     question_text = question.text
+    #     question_t[question_id] = eval(question_text.replace(' ', ''))
+    return render_template('practice.html',
+                           question=question,
+                           question_t=question_t,
+                           question_num=len(questions),
+                           question_type=question_type,
+                           id=id)
 
 
-@main.route('/test/<username>')
-def test(username, type):
-    questions = Question.query.order_by(func.random()).limit(5)
+@main.route('/test/<type>/<int:id>')
+@login_required
+def test(type, id):
+    form = SubmitForm()
+    answer_paper = Answer_paper()
+    if 'test' not in session:
+        question_id_list = ''
+        questions = Question.query.filter_by(question_type=type).order_by(func.random()).limit(5).all()
+        for q in questions:
+            question_id_list = question_id_list + str(q.id) + ' '
+        print (question_id_list)
+        session['test'] = question_id_list
+    question_list = session['test'].split()
+    question = Question.query.filter_by(id=question_list[id]).first()
+    question_t = eval(question.text.replace(' ', ''))
+    return render_template('test.html',
+                           id=id,
+                           question_type=type,
+                           question=question,
+                           question_t=question_t,
+                           question_num=len(question_list),
+                           form=form)
+
+
+@main.route('/save/<ans>')
+@login_required
+def save(ans):
+    print(ans)
+
 
 
 

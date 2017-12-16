@@ -5,23 +5,8 @@
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <style type="text/css">
-    div.post-date {
-    float: right;
-    }
-    div.post-title {
-    font-weight: bold;
-    }
-    div.post-footer {
-    text-align: right;
-    }
-    span.label-primary{
-       font-weight: bold;
-    }
-    div.question-footer {
-    text-align: right;
-    }
-    </style>
+<script src="http://cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+
 {% endblock %}
 
 {% block navbar %}
@@ -58,7 +43,7 @@
                     科目一
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">练习</a></li>
+                        <li><a href="/practice/0/0">练习</a></li>
                         <li><a href="#">模拟考试</a></li>
                     </ul>
                 </li>
