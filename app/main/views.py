@@ -185,8 +185,6 @@ def practice(question_type, id):
 @main.route('/test/<type>/<int:id>')
 @login_required
 def test(type, id):
-    form = SubmitForm()
-    answer_paper = Answer_paper()
     if 'test' not in session:
         question_id_list = ''
         questions = Question.query.filter_by(question_type=type).order_by(func.random()).limit(5).all()
@@ -202,16 +200,33 @@ def test(type, id):
                            question_type=type,
                            question=question,
                            question_t=question_t,
-                           question_num=len(question_list),
-                           form=form)
+                           question_num=len(question_list))
 
 
 @main.route('/save/<ans>')
 @login_required
 def save(ans):
-    print(ans)
+    answer_list = ans[9:].strip()
+    question_list = session['test'].split()
+    answer_paper = Answer_paper()
+    for i in range(len(question_list)):
+        question = Question.query.filter_by(id=question_list[i]).first()
+        answer_paper.answer = answer_list
+        answer_paper.user_id = current_user.id
+        answer_paper.questions.append(question)
+        db.session.add(answer_paper)
+        db.session.commit()
+    session.pop('test', None)
+    return redirect(url_for('.grade'))
 
 
+@main.route('/grade')
+@login_required
+def grade():
+    user_id = current_user.id
+    user_name = current_user.username
+    answer_papers = Answer_paper.query.filter_by(user=user_id).all
+    return render_template('grade.html')
 
 
 

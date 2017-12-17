@@ -111,7 +111,7 @@
             if (question_num !== question_all) {
                 window.location.href = '/test/' + question_type + '/' + question_num;
             } else {
-                $('#ans_a').attr('disabled', 'disabled');
+                disable_b();
                 save()
             }
         })
@@ -120,7 +120,7 @@
             if (question_num !== question_all) {
                 window.location.href = '/test/' + question_type + '/' + question_num;
             } else {
-                $('#ans_b').attr('disabled', 'disabled');
+                disable_b();
                 save()
             }
         })
@@ -129,7 +129,7 @@
             if (question_num !== question_all) {
                 window.location.href = '/test/' + question_type + '/' + question_num;
             } else {
-                $('#ans_c').attr('disabled', 'disabled');
+                disable_b();
                 save()
             }
         })
@@ -138,8 +138,7 @@
             if (question_num !== question_all) {
                 window.location.href = '/test/' + question_type + '/' + question_num;
             } else {
-                $('#ans_d.' +
-                    '').attr('disabled', 'disabled');
+                disable_b();
                 save()
             }
         })
@@ -147,7 +146,13 @@
             var answer = storage['ans'];
             console.log(storage['ans']);
             storage.removeItem("ans");
-
+            window.location.href = '/save/'+answer;
+        }
+        function disable_b() {
+            $('#ans_a').attr('disabled', 'disabled');
+            $('#ans_b').attr('disabled', 'disabled');
+            $('#ans_c').attr('disabled', 'disabled');
+            $('#ans_d').attr('disabled', 'disabled');
         }
     </script>
 {% endblock %}

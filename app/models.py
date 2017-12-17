@@ -192,6 +192,14 @@ class Answer_paper(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     answer = db.Column(db.String(128))
 
+    def grade(self):
+        user_answer_list = self.answer.split('1')
+        del user_answer_list[-1]
+        questions = Answer_paper.questions.all()
+        results = []
+        for question in questions:
+            result(question.id, question.answer, )
+
 
 registration = db.Table('registrations',
                         db.Column('question_id', db.Integer, db.ForeignKey('questions.id')),

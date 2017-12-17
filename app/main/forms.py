@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, BooleanField, SelectField, \
-    SubmitField, FileField, RadioField
+    SubmitField, FileField, RadioField,HiddenField
 from wtforms.validators import DataRequired, Length, Email, Regexp
 from wtforms import ValidationError
 from flask_pagedown.fields import PageDownField
@@ -34,4 +34,5 @@ class QuestionForm(FlaskForm):
 
 
 class SubmitForm(FlaskForm):
+    ans = HiddenField('test')
     submit = SubmitField('Submit')
