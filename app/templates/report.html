@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Four Seasons{% endblock %}
+
+{% block page_content %}
+    {% for question in infos %}
+        <div class="col-md-2" style="width: 40%; font-size: 20px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ question[0]['question'] }}
+                    {% if question[1] %}
+                        <img src={{ question[1]}} class="img-responsive" alt="Responsive image" style="width:100%;">
+                    {% endif %}
+                </div>
+                <div class="panel-body">
+                    <ul style="margin-top: 50px;">
+                        <li>
+                            <label>
+                                A:{{ question[0]['A'] }}
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                B:{{ question[0]['B'] }}
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                C:{{ question[0]['C'] }}
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                D:{{ question[0]['D'] }}
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                选择：<span id="choice">{{ question[4] }}</span>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                答案：</span id="answer">{{ question[2] }}</label>
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                解析：{{ question[3] }}
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% endblock %}

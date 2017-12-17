@@ -4,7 +4,7 @@ from flask import render_template, redirect, url_for, abort, flash, request, \
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
 from .forms import PostForm, QuestionForm, SubmitForm
-from ..models import Post, Permission, Question, Answer_paper
+from ..models import Post, Permission, Question, Answer_paper, Answer, User
 from .. import db, photos
 import sys
 reload(sys)
@@ -206,27 +206,68 @@ def test(type, id):
 @main.route('/save/<ans>')
 @login_required
 def save(ans):
-    answer_list = ans[9:].strip()
+    answer_list = ans[9:].strip().split('1')
+    del answer_list[-1]
     question_list = session['test'].split()
     answer_paper = Answer_paper()
     for i in range(len(question_list)):
         question = Question.query.filter_by(id=question_list[i]).first()
-        answer_paper.answer = answer_list
+        answer = Answer(questions=question, answers=answer_paper, answer=answer_list[i])
         answer_paper.user_id = current_user.id
-        answer_paper.questions.append(question)
         db.session.add(answer_paper)
+        db.session.add(answer)
         db.session.commit()
     session.pop('test', None)
-    return redirect(url_for('.grade'))
+    answer_paper.user_id = current_user.id
+    db.session.add(answer_paper)
+    db.session.add(answer)
+    db.session.commit()
+    return redirect(url_for('.grade', id=current_user.id))
 
 
-@main.route('/grade')
+@main.route('/grade/<int:id>')
 @login_required
-def grade():
-    user_id = current_user.id
-    user_name = current_user.username
-    answer_papers = Answer_paper.query.filter_by(user=user_id).all
-    return render_template('grade.html')
+def grade(id):
+    all_grades = Answer_paper.query.filter_by(user_id=id).all()
+    grades = []
+    for g in all_grades:
+        questions = g.grade()
+        right = 0
+        wrong = 0
+        for question in questions:
+            if question[2]:
+                right += 1
+            else:
+                wrong += 1
+        grades.append((g.id, g.timestamp, right, wrong))
+
+    return render_template('grade.html', grades=grades, id=id)
+
+
+@main.route('/report/<int:id>')
+@login_required
+def report(id):
+    answer_paper = Answer_paper.query.filter_by(id = id).first()
+    questions = answer_paper.grade()
+    infos = []
+    for question in questions:
+        question_text = question[0].text
+        question_ans = question[0].answer
+        question_analysis = question[0].analysis
+        question_image = question[0].image
+        question_t = eval(question_text.replace(' ', ''))
+        question_info = (question_t, question_image, question_ans, question_analysis, question[1])
+        infos.append(question_info)
+
+    return render_template('report.html', infos=infos)
+
+
+@main.route('/manage_user')
+@login_required
+@admin_required
+def manage_user():
+    users = User.query.all()
+    return render_template('manage_user.html', users=users)
 
 
 

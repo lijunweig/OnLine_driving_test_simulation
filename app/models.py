@@ -10,6 +10,7 @@ from . import db
 from . import login_manager
 from  sqlalchemy.sql.expression import func
 
+
 # using binary system and bitwise, for future modify
 class Permission:
     TEST = 1
@@ -179,10 +180,19 @@ class User(UserMixin, db.Model):
         return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
             url=url, hash=hash, size=size, default=default, rating=rating)
 
+    def all_grades(self):
+        return Answer_paper.query.filter_by(user_id=self.id).all()
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+class Answer(db.Model):
+    question = db.Column(db.Integer, db.ForeignKey('questions.id'), primary_key=True)
+    answer_paper = db.Column(db.Integer, db.ForeignKey('answer_papers.id'), primary_key=True)
+    answer = db.Column(db.String(16))
 
 
 class Answer_paper(db.Model):
@@ -191,20 +201,27 @@ class Answer_paper(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     answer = db.Column(db.String(128))
+    questions = db.relationship('Answer',
+                                foreign_keys=[Answer.answer_paper],
+                                backref=db.backref('answers', lazy='joined'),
+                                lazy='dynamic',
+                                cascade='all, delete-orphan')
 
     def grade(self):
-        user_answer_list = self.answer.split('1')
-        del user_answer_list[-1]
-        questions = Answer_paper.questions.all()
-        results = []
-        for question in questions:
-            result(question.id, question.answer, )
+        grade = []
+        answer_objs = self.questions.all()
+        for answer_obj in answer_objs:
+            question = Question.query.filter_by(id=answer_obj.question).first()
+            check = False
+            if answer_obj.answer == question.answer:
+                check = True
+            grade.append((question, answer_obj.answer, check))
+        return grade
 
 
-registration = db.Table('registrations',
-                        db.Column('question_id', db.Integer, db.ForeignKey('questions.id')),
-                        db.Column('answer_paper_id', db.Integer, db.ForeignKey('answer_papers.id')))
-
+# registration = db.Table('registrations',
+#                         db.Column('question_id', db.Integer, db.ForeignKey('questions.id')),
+#                         db.Column('answer_paper_id', db.Integer, db.ForeignKey('answer_papers.id')))
 
 # class Exam_paper(db.Model):
 #     __tablename__ = 'exam_papers'
@@ -227,10 +244,11 @@ class Question(db.Model):
     right_times = db.Column(db.Integer)
     wrong_times = db.Column(db.Integer)
     image = db.Column(db.Text)
-    answer_papers = db.relationship('Answer_paper',
-                                  secondary=registration,
-                                  backref=db.backref('questions', lazy='dynamic'),
-                                  lazy='dynamic')
+    answer_papers = db.relationship('Answer',
+                                    foreign_keys=[Answer.question],
+                                    backref=db.backref('questions', lazy='joined'),
+                                    lazy='dynamic',
+                                    cascade='all, delete-orphan')
 
 
 class Post(db.Model):

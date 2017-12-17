@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Four Seasons{% endblock %}
+
+{% block page_content %}
+
+    <div class="page-header">
+        <h1>用户管理</h1>
+    </div>
+
+    <table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>用户名</th>
+        <th>  </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>
+            <a href="/grade/{{ user.id }}">
+                <span class="label label-primary">成绩</span>
+            </a>
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

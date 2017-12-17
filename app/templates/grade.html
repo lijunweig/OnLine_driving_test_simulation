@@ -1,10 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}Four Seasons{% endblock %}
+
+{% block page_content %}
+
+    <div class="page-header">
+        <h1>{{ current_user.username }}的成绩单</h1>
+    </div>
+
+    <table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>测试时间</th>
+        <th>正确</th>
+        <th>错误</th>
+        <th>  </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for grade in grades %}
+    <tr>
+        <td>{{ grade[0] }}</td>
+        <td>{{ moment(grade[1]).format('LLL')}}</td>
+        <td>{{ grade[2] }}</td>
+        <td>{{ grade[3] }}</td>
+        <td>
+            <a href="/report/{{ grade[0] }}">
+                <span class="label label-primary">详情</span>
+            </a>
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
