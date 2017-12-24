@@ -1,11 +1,13 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}Four Seasons{% endblock %}
 
 {% block page_content %}
     <div class="container">
         <div class="row">
-            <div class="col-md-5" style="width: 80%; font-size: 20px;">
+            <div class="col-md-5" style="width: 60%; font-size: 20px;">
+                {{ wtf.quick_form(form) }}
                 <div class="panel panel-default">
                     <div class="panel-heading">
 {#                        {% if question.image %}#}
@@ -88,4 +90,5 @@
         })
 </script>
 {% endblock %}
+
 

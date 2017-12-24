@@ -3,8 +3,9 @@
 {% block title %}Four Seasons{% endblock %}
 
 {% block page_content %}
-    {% for question in infos %}
-        <div class="col-md-2" style="width: 40%; font-size: 20px;">
+     <div class="container">
+        <div class="col-md-6" style="font-size: 20px;">
+        {% for question in infos %}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     {{ question[0]['question'] }}
@@ -36,7 +37,15 @@
                         </li>
                         <li>
                             <label>
-                                选择：<span id="choice">{{ question[4] }}</span>
+                                {% if question[4] != 'E' %}
+                                    {% if question[4] != question[2] %}
+                                        选择：<span id="choice" style="color:red">{{ question[4] }}</span>
+                                    {% else %}
+                                        选择：<span id="choice">{{ question[4] }}</span>
+                                    {% endif %}
+                                {% else %}
+                                未选择
+                                {% endif %}
                             </label>
                         </li>
                         <li>
@@ -52,7 +61,8 @@
                     </ul>
                 </div>
             </div>
+            {% endfor %}
         </div>
-    {% endfor %}
 
+     </div>
 {% endblock %}

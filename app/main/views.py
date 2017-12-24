@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, abort, flash, request, \
     current_app, make_response, session
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
-from .forms import PostForm, QuestionForm, SubmitForm
+from .forms import PostForm, QuestionForm, SubmitForm, SearchForm
 from ..models import Post, Permission, Question, Answer_paper, Answer, User
 from .. import db, photos
 import sys
@@ -165,11 +165,22 @@ def show_post(id):
     return render_template('show_post.html', post=post)
 
 
-@main.route('/practice/<question_type>/<int:id>')
+@main.route('/practice/<question_type>/<int:id>', methods=['GET', 'POST'])
 def practice(question_type, id):
+    form = SearchForm()
     questions = Question.query.filter_by(question_type=question_type).all()
     question = questions[id]
     question_t= eval(question.text.replace(' ', ''))
+    if form.validate_on_submit():
+        q_str = form.search.data
+        try:
+            q_num = int(q_str) - 1
+            if q_num < len(questions):
+                return redirect(url_for('.practice', question_type=question_type, id=q_num))
+            else:
+                flash('input must be in the range')
+        except:
+            flash('input must be number')
     # for question in questions:
     #     question_id = question.id
     #     question_text = question.text
@@ -179,7 +190,8 @@ def practice(question_type, id):
                            question_t=question_t,
                            question_num=len(questions),
                            question_type=question_type,
-                           id=id)
+                           id=id,
+                           form=form)
 
 
 @main.route('/test/<type>/<int:id>')

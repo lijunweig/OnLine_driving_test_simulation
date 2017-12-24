@@ -36,3 +36,8 @@ class QuestionForm(FlaskForm):
 class SubmitForm(FlaskForm):
     ans = HiddenField('test')
     submit = SubmitField('Submit')
+
+
+class SearchForm(FlaskForm):
+    search = StringField('question', validators=[Length(0, 16)])
+    submit = SubmitField('OK')
